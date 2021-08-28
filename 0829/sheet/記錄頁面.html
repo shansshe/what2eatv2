@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="​What makes a great workplace experience?">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <title>記錄頁面</title>
+    <link rel="stylesheet" href="nicepage.css" media="screen">
+<link rel="stylesheet" href="記錄頁面.css" media="screen">
+    <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
+    <meta name="generator" content="Nicepage 3.23.2, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
+    
+    
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "sheet"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="記錄頁面">
+    <meta property="og:type" content="website">
+  </head>
+  <body class="u-body"> 
+    <section class="u-align-center u-clearfix u-image u-section-1" id="sec-e79c" data-image-width="1600" data-image-height="900">
+      <div class="u-clearfix u-sheet u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xl u-sheet-1">
+        <div class="u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xl u-tabs u-tabs-1">
+          <ul class="u-tab-list u-unstyled" role="tablist">
+            <li class="u-tab-item u-tab-item-1" role="presentation">
+              <a class="active u-active-white u-button-style u-custom-font u-font-arial u-hover-palette-5-light-2 u-tab-link u-text-palette-1-dark-3 u-tab-link-1" id="link-tab-0da5" href="#tab-0da5" role="tab" aria-controls="tab-0da5" aria-selected="true">計算一日所需熱量</a>
+            </li>
+            <li class="u-tab-item u-tab-item-2" role="presentation">
+              <a class="u-active-white u-button-style u-custom-font u-font-arial u-hover-palette-5-light-2 u-tab-link u-text-palette-1-dark-3 u-tab-link-2" id="link-tab-f9d6" href="#tab-f9d6" role="tab" aria-controls="tab-f9d6" aria-selected="false">紀錄飲食</a>
+            </li>
+          </ul>
+          <div class="u-tab-content">
+            <div class="u-container-style u-tab-active u-tab-pane u-white u-tab-pane-1" id="tab-0da5" role="tabpanel" aria-labelledby="link-tab-0da5">
+              <div class="u-container-layout u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xl u-container-layout-1">
+                <div class="u-clearfix u-custom-html u-custom-html-1">
+                  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+                  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+                  <script> function initializeApp(data) {
+        $("#userid").val(data.context.userId);
+    }
+    //彙整訊息到msg
+    function pushMsg(pmsg1, pmsg2, pmsg3, pmsg4, pmsg5) {
+        var msg = "###";  //回傳訊息字串
+        msg = pmsg1 + "," + pmsg2 + "," + pmsg3 + "," + pmsg4 + "," + pmsg5;
+        //msg = msg + pmsg2 + "/";
+        //var msg = pmsg1 + pmsg2;
+        liff.sendMessages([  //推播訊息
+            {
+                type: 'text',
+                text: msg
+            }
+        ])
+            .then(() => {
+                alert("done");
+                liff.closeWindow();  //關閉視窗
+            });
+    }
+    $(function () {
+        liff.init(function (data) {
+            initializeApp(data);
+        });
+        $("#ButtonGetProfile").click(function () {
+            liff.getProfile().then(profile => {
+                $("#UserInfo").val(profile.displayName);
+                alert("done");
+            });
+        });
+        $("#ButtonSendMsg").click(function () { //按下確定鈕
+            pushMsg($("#sel_gen").val(), $("#msg_age").val(), $("#msg_height").val(), $("#msg_weight").val(), $("#sel_day").val());
+        });
+    }); </script>
+                  <div class="row" style="margin: 10px">
+                    <div class="col-12" style="margin: 10px">
+                      <label>性別</label>
+                      <select id="sel_gen" class="form-control">
+                        <option>請選擇</option>
+                        <option value="M">男</option>
+                        <option value="F">女</option>
+                      </select>
+                      <br>
+                      <label>年齡</label>
+                      <input class="form-control" type="text" id="msg_age" placeholder="請輸入年齡">
+                      <br>
+                      <label>身高 (cm)</label>
+                      <input class="form-control" type="text" id="msg_height" placeholder="請輸入身高 (cm)">
+                      <br>
+                      <label>體重 (kg)</label>
+                      <input class="form-control" type="text" id="msg_weight" placeholder="請輸入體重 (kg)">
+                      <br>
+                      <label>一周運動天數</label>
+                      <select id="sel_day" class="form-control">
+                        <option>請選擇</option>
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                      </select>
+                      <br>
+                      <button class="btn btn-block btn-success" id="ButtonSendMsg">傳送</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="u-container-style u-tab-pane u-white u-tab-pane-2" id="tab-f9d6" role="tabpanel" aria-labelledby="link-tab-f9d6" wfd-invisible="true">
+              <div class="u-container-layout u-container-layout-2">
+                <div class="u-clearfix u-custom-html u-custom-html-2">
+                  <style></style>
+                  <p>Sample HTML. Lorem ipsum dolor sit amet, consectetur adipiscing elit nullam nunc justo sagittis suscipit ultrices.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+    
+    <section class="u-backlink u-clearfix u-grey-80">
+      <a class="u-link" href="https://nicepage.com/website-templates" target="_blank">
+        <span>Free Website Templates</span>
+      </a>
+      <p class="u-text">
+        <span>created with</span>
+      </p>
+      <a class="u-link" href="https://nicepage.com/" target="_blank">
+        <span>Offline Website Builder Software</span>
+      </a>. 
+    </section>
+  </body>
+</html>
