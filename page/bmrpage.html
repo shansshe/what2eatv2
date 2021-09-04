@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>紀錄飲食</title>
+    <title>BMR與TDEE計算器</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -17,14 +17,15 @@
             $("#userid").val(data.context.userId);
         }
         //彙整訊息到msg
-
-        function pushMsg2(pmsg1, pmsg2, pmsg3, pmsg4) {
-            if (pmsg1 == '' || pmsg2 == '' || pmsg3 == '' || pmsg4 == '') {  //資料檢查
+        function pushMsg(pmsg1, pmsg2, pmsg3, pmsg4, pmsg5) {
+            if (pmsg1 == '' || pmsg2 == '' || pmsg3 == '' || pmsg4 == '' || pmsg5 == '') {  //資料檢查
                 alert('每個項目都必須輸入！');
                 return;
             }
-            var msg = "紀錄食物";  //回傳訊息字串
-            msg = msg + "," + pmsg1 + "," + pmsg2 + "," + pmsg3 + "," + pmsg4;
+            var msg = "###";  //回傳訊息字串
+            msg = pmsg1 + "," + pmsg2 + "," + pmsg3 + "," + pmsg4 + "," + pmsg5;
+            //msg = msg + pmsg2 + "/";
+            //var msg = pmsg1 + pmsg2;
             liff.sendMessages([  //推播訊息
                 {
                     type: 'text',
@@ -48,10 +49,9 @@
                 });
             });
 
-            $("#ButtonSendMsgFood").click(function () { //按下確定鈕
-                pushMsg2($("#msg_date").val(), $("#sel_type").val(), $("#msg_foodname").val(), $("#msg_cal").val());
+            $("#ButtonSendMsg").click(function () { //按下確定鈕
+                pushMsg($("#sel_gen").val(), $("#msg_age").val(), $("#msg_height").val(), $("#msg_weight").val(), $("#sel_day").val());
             });
-
         });
 
 
@@ -100,7 +100,6 @@
             padding: none;
             border: none;
             border-top: none;
-            /*background-color: #FDFEFE;*/
         }
 
         table {
@@ -121,36 +120,47 @@
         }
     </style>
 </head>
-<!-- style="background-color: #033649" -->
 
 <body background="https://i.imgur.com/z5QFfbP.jpg">
     <!-- Tab links -->
     <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'food')" id="defaultOpen">紀錄飲食</button>
+        <button class="tablinks" onclick="openCity(event, 'bmrtdee')" id="defaultOpen">BMR與TDEE計算器</button>
         <button class="tablinks" onclick="openCity(event, 'history')">歷史紀錄</button>
     </div>
 
     <!-- Tab content -->
-    <div id="food" class="tabcontent">
+    <div id="bmrtdee" class="tabcontent">
         <div class="row" style="margin: 6px">
-            <div class="col-12" style="margin: 3px">
-                <label>日期</label>
-                <input type="date" id="msg_date" value="" class="form-control" />
-                <br />
-                <label>類別</label>
-                <select id="sel_type" class="form-control">
+            <div class="col-12" style="margin:3px">
+                <label>性別</label>
+                <select id="sel_gen" class="form-control">
                     <option>請選擇</option>
-                    <option>早餐</option>
-                    <option>午餐</option>
-                    <option>晚餐</option>
-                    <option>點心</option>
-                </select> <br />
-                <label>名稱</label>
-                <input class="form-control" type="text" id="msg_foodname" placeholder="請輸入食物名稱" /><br />
-                <label>熱量(kcal)</label>
-                <input class="form-control" type="text" id="msg_cal" placeholder="請輸入熱量 (kcal)" /><br />
-                <!--<button class="btn btn-success btn-block" id="ScanQR">掃條碼</button>-->
-                <button class="btn btn-success btn-block" id="ButtonSendMsgFood">傳送</button>
+                    <option value="M">男</option>
+                    <option value="F">女</option>
+                </select><br />
+                <label>年齡</label>
+                <input class="form-control" type="text" id="msg_age" placeholder="請輸入年齡" /><br />
+                <label>身高 (cm)</label>
+                <input class="form-control" type="text" id="msg_height" placeholder="請輸入身高 (cm)" /><br />
+                <label>體重 (kg)</label>
+                <input class="form-control" type="text" id="msg_weight" placeholder="請輸入體重 (kg)" /><br />
+
+                <label>一周運動天數</label>
+                <select id="sel_day" class="form-control">
+                    <option>請選擇</option>
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                </select>
+
+                <br />
+
+                <button class="btn btn-success btn-block" id="ButtonSendMsg">傳送</button>
             </div>
         </div>
     </div>
@@ -160,33 +170,27 @@
             <div class="col-12">
                 <table>
                     <tr>
-                        <th>日期</th>
-                        <th>類別</th>
-                        <th>名稱</th>
-                        <th>熱量(kcal)</th>
+                        <th>性別</th>
+                        <th>年齡</th>
+                        <th>身高</th>
+                        <th>體重</th>
+                        <th>一周運動天數</th>
                     </tr>
                     <tr>
-                        <td>2021-09-30</td>
-                        <td>晚餐</td>
-                        <td>炸雞腿飯</td>
-                        <td>680</td>
+                        <td>男</td>
+                        <td>18</td>
+                        <td>180</td>
+                        <td>78</td>
+                        <td>3</td>
                     </tr>
-                    <tr>
-                        <td>2021-10-01</td>
-                        <td>早餐</td>
-                        <td>金黃玉米蛋餅</td>
-                        <td>235</td>
-                    </tr>
-                    <tr>
-                        <td>2021-10-01</td>
-                        <td>午餐</td>
-                        <td>拉麵</td>
-                        <td>500</td>
-                    </tr>
+
                 </table>
+
             </div>
         </div>
     </div>
+
+
 
 
     <!--點選tab執行動作-->
