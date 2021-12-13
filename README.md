@@ -5,6 +5,6 @@ https://gigisshe.github.io/what2eatv2/
 
 https://gigisshe.github.io/what2eatv2/page/bmrpage
 
--紀錄食物表單
+-紀錄飲食表單
 
 https://gigisshe.github.io/what2eatv2/page/refoodpage
